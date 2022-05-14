@@ -1,66 +1,59 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import React, { useEffect, useState } from 'react';
+import Container from '../Container';
 
 
-export default function InfoHours({info}) {
+export default function InfoHours({info, change,h}) {
+useEffect(()=>{
+  //console.log(info)
+},[info])
+
     return(
-      <>
-        {/* CONTAINER PRINCIPAL PARA TEMPERATURA POR HORARIO + FRASE DA PREVISÃO */}
-        <View style={styles.forecast_container}> 
-          {/* CONTAINER CONTENDO A FRASE DA PREVISÃO MAIS LINHA DIVISORIA*/}
-          <View style={styles.forecast_infotext_container}>
-            <Text style={styles.forecast_infotext}>Previsão de clima nublado até 07:00</Text>
-          </View>
+        <View>
           {/* CONTAINER PRINCIPAL DE ALINHAMENTO PARA TODAS AS 6 TEMPERATURAS, HORARIOS E ICONES*/}
-          <View style={styles.forecast_hours_container}>
+          <View style={styles.title_container}>
+            <Icon color='white' style={styles.title_icon} name="clock"></Icon>
+            <Text style={styles.title}>Previsão Horária</Text>  
+          </View>
+          
+          <ScrollView horizontal={true} style={styles.forecast_hours_container}>
             {/* CONTAINER DE ALINHAMENTO PARA CADA TEMPERATURAS, HORARIOS E ICONES*/}
             {info.map((value, index)=>{
                 return(
                   <View key={index} style={styles.hour_info_container}>
                     <Text style={styles.hour_temperature}>{value.hour}</Text>
-                    <Icon name={value.icon} size={25} color="#fff"></Icon>
+                    <Icon name={value.icon} size={20} color="#fff"></Icon>
                     <Text style={styles.hour_temperature}>{value.temperature}</Text>
                   </View>
             )})}
-          </View>
+          </ScrollView>
         </View>
-      </>
+
     )
 }
 const width = Dimensions.get('screen').width;
 const widthOtherDays= width/1.11;
 const styles = StyleSheet.create({
-  forecast_container:{
-     backgroundColor:'rgb(42, 44, 78)',
-      width:widthOtherDays,
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      paddingTop:20,
-      height:200,
-      alignItems:'center'      
+  title_container:{
+    flexDirection:'row',
+    paddingLeft:15,
+    opacity:0.2,
+    alignItems:'center',
+    justifyContent:'flex-start'
   },
-  forecast_infotext_container:{
-    borderBottomWidth:0.25,
-    borderBottomColor:'rgb(190, 190, 190)',
-    width: widthOtherDays / 1.125,
-    alignItems:'center'
+  title:{
+    color:'white',
   },
-  forecast_infotext:{
-    fontSize:16,
-    fontWeight:'300',
-    color:'#FFF',
-    marginBottom:20,
-    borderBottomWidth:5,
-    borderBottomColor:'#fff'
+  title_icon:{
+    marginRight:10
   },
   forecast_hours_container:{
-    paddingTop:25,
-    justifyContent:'space-around',
+    paddingTop:10,
+    // justifyContent:'space-around',
     flexDirection:'row',
     flexWrap:'wrap',
-    paddingLeft:10,
+    paddingLeft:0,
     paddingRight:10
   },
   hour_info_container:{
@@ -73,9 +66,10 @@ const styles = StyleSheet.create({
     
   },
   hour_temperature:{
-    fontSize:16,
+    fontSize:14,
     fontWeight:'500',
     color:'#FFF'
   }
-
 });
+
+
