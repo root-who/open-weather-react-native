@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
-export default function Container({height, component, padding_top}){
+export default function Container({height, width, component, padding_top}){
 
-    const width = Dimensions.get('screen').width;
-    const widthOtherDays= width/1.11;
+
     const styles = StyleSheet.create({
         forecast_container:{
             backgroundColor:'rgb(42, 44, 78)',
-            width:widthOtherDays,
+            width:width,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             borderBottomLeftRadius: 20,

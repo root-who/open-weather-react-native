@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView } from 'react-native';
 
-export default function CurrentStatus(){
+export default function CurrentStatus({status}){
     return(
         <View style={styles.status_container}>
-          <Text style={styles.status_city}>São Paulo</Text>
-          <Text style={styles.status_current_degree}>16º</Text>
-          <Text style={styles.status_max_min_weather_info}>Pouco Nublado</Text>
+          <Text style={styles.status_city}>{status.city}</Text>
+          <Text style={styles.status_current_degree}>{status.degree}º</Text>
+          <Text style={styles.status_max_min_weather_info}>{status.info}</Text>
           <View style={styles.status_max_min_container}>
-            <Text style={styles.status_max_min_weather_info}>Max: 24º</Text>
-            <Text style={styles.status_max_min_weather_info}>Min: 12º</Text>
+            <Text style={styles.status_max_min_weather_info}>Min: {status.min}º</Text>
+            <Text style={styles.status_max_min_weather_info}>Max: {status.max}º</Text>
           </View>
         </View>
 )}

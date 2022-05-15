@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useEffect, useState } from 'react';
 import Container from '../Container';
+import moment from 'moment';
+import 'moment/locale/pt-br'
 
+export default function NextSixDays({info, change}) {
+    const [icon, setIcon] = useState();
 
-export default function NextSixDays({info, change,h}) {
+    function capitalize(s){
+      return s[0].toUpperCase() + s.slice(1);
+    }
+
     return(
         <View>
           {/* CONTAINER PRINCIPAL DE ALINHAMENTO PARA TODAS AS 6 TEMPERATURAS, HORARIOS E ICONES*/}
           <View style={styles.title_container}>
-            <Icon color='white' style={styles.title_icon} name="calendar-alt"></Icon>
+            <FontAwesome5 color='white' style={styles.title_icon} name="calendar-alt"></FontAwesome5>
             <Text style={styles.title}>Previsão para os próximos 6 dias</Text>  
           </View>
           
@@ -18,15 +26,15 @@ export default function NextSixDays({info, change,h}) {
             {info.map((value, index)=>{
                 return(
                   <View key={index}>
-                    <View  style={styles.day_info_container}>
-                      <Text style={styles.day}>{value.hour}</Text>
-                      <Icon style={styles.icon}name={value.icon} size={22} color="#fff"></Icon>
+                    <View  style={styles.day_info_container}>                      
+                      <Text style={styles.day}>{capitalize(moment(value.day).format('dddd', 'pt-br').slice(0,3))}</Text>
+                      <FontAwesome5 style={styles.icon} name={'sun'} size={22} color="#fff"></FontAwesome5>
                       <View style={styles.day_info_max_min_container}>
-                        <Text style={styles.day_temperature}>Max: {value.temperature}</Text>
-                        <Text style={styles.day_temperature}>Min: {value.temperature}</Text>
+                        <Text style={styles.day_temperature}>Min: {parseInt(value.min)}º</Text>
+                        <Text style={styles.day_temperature}>Max: {parseInt(value.max)}º</Text>
                       </View>
                     </View>
-                    {(index !== 5) ? <View key={index+50} style={styles.day_info_line}></View> : null}    
+                    {(index !== 7) ? <View key={index+50} style={styles.day_info_line}></View> : null}    
                   </View>
             )})}
           </View>
