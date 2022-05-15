@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Pressable
 
 
 export default function AdditionalInfo({text, icon, title, width}){
-
     const styles = StyleSheet.create({
         additional_info_container:{
             alignItems:'center',
@@ -28,7 +27,6 @@ export default function AdditionalInfo({text, icon, title, width}){
             marginRight:5,
             color:'white'
         }
-
     })
     return(
         <View style={styles.additional_info_container}>

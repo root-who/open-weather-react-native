@@ -3,15 +3,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useEffect, useState } from 'react';
 import Container from '../Container';
-import moment from 'moment';
-import 'moment/locale/pt-br'
 
 export default function NextSixDays({info, change}) {
     const [icon, setIcon] = useState();
-
-    function capitalize(s){
-      return s[0].toUpperCase() + s.slice(1);
-    }
 
     return(
         <View>
@@ -27,7 +21,7 @@ export default function NextSixDays({info, change}) {
                 return(
                   <View key={index}>
                     <View  style={styles.day_info_container}>                      
-                      <Text style={styles.day}>{capitalize(moment(value.day).format('dddd', 'pt-br').slice(0,3))}</Text>
+                      <Text style={styles.day}>{value.day}</Text>
                       <FontAwesome5 style={styles.icon} name={'sun'} size={22} color="#fff"></FontAwesome5>
                       <View style={styles.day_info_max_min_container}>
                         <Text style={styles.day_temperature}>Min: {parseInt(value.min)}º</Text>

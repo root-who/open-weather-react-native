@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Container from '../Container';
 
 
-export default function InfoHours({info, change,h}) {
-useEffect(()=>{
-  //console.log(info)
-},[info])
+export default function InfoHours({info}) {
 
     return(
         <View>
@@ -22,9 +19,9 @@ useEffect(()=>{
             {info.map((value, index)=>{
                 return(
                   <View key={index} style={styles.hour_info_container}>
-                    <Text style={styles.hour_temperature}>{value.hour}</Text>
-                    <Icon name={value.icon} size={20} color="#fff"></Icon>
-                    <Text style={styles.hour_temperature}>{value.temperature}</Text>
+                    {index === 0 ? <Text style={styles.hour_temperature}>{'Agora'}</Text>: <Text style={styles.hour_temperature}>{value.hour}</Text>}
+                    <Icon name={'sun'} size={20} color="#fff"></Icon>
+                    <Text style={styles.hour_temperature}>{value.temperature+ 'º'}</Text>
                   </View>
             )})}
           </ScrollView>

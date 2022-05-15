@@ -44,49 +44,58 @@ export default function App() {
 
   const [currentStatus, setCurrentStatus] = useState({})
   const [days, setDays] = useState([{}])
+  const [hours, setHours] = useState([{}])
   const [city, setCity] = useState('Sao Paulo')
   const [forecast, setForecast] = useState({})
   const [foundCity, setFoundCity] = useState(false)
   const [foundWeather, setFoundWeather] = useState(false)
+  const [rightCity, setRightCity] = useState(false)
   const [data, setData] = useState(false)
   
 
   useEffect(()=>{
-    foundCity ? null : getCity()
-    foundWeather ? getData() : getWeather()    
-  }, [foundCity, foundWeather, data, city])
+    rightCity ? getData() : null; 
+    foundWeather ? getWeather() : null;
+    foundCity  ? null : getCity();    
+  }, [foundCity, foundWeather, data, rightCity, forecast])
 
   function getWeather(){
-      if(foundCity){
-        const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${forecast.coord.lat}&lon=${forecast.coord.lon}&exclude=minutely,hourly&appid=b5cb9159eb0a6bdcf566597ea3bbbe72&lang=pt_br&units=metric`
-        axios.get(url)
-        .then((response)=>{
-          setForecast(forecast=>({...forecast, current:response.data.current}))
-          setForecast(forecast=>({...forecast, daily:response.data.daily}))
-          setFoundWeather(true)
-        })
-        .catch((response)=>{
-          setResposta(response.data.current)
-        })
-      }
+        if(forecast.coord !== undefined){
+          const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${forecast.coord.lat}&lon=${forecast.coord.lon}&exclude=minutely&appid=b5cb9159eb0a6bdcf566597ea3bbbe72&lang=pt_br&units=metric`
+          setFoundWeather(false)
+          axios.get(url)
+          .then((response)=>{
+            setForecast(forecast=>({...forecast, current:response.data.current}))
+            setForecast(forecast=>({...forecast, daily:response.data.daily}))
+            setForecast(forecast=>({...forecast, hourly:response.data.hourly}))
+            setRightCity(true)          
+          })
+          .catch((response)=>{
+          })
+        }
   }
 
   function getCity(){
-    axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=b5cb9159eb0a6bdcf566597ea3bbbe72&lang=pt_br&units=metric`)
-    .then((response)=>{
-      setForecast(response.data.city)
-      setFoundCity(true) 
-      setData(data) 
-    })  
-    getWeather() 
+          axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=b5cb9159eb0a6bdcf566597ea3bbbe72&lang=pt_br&units=metric`)
+            .then((response)=>{
+              setFoundCity(true)                
+              setForecast(response.data.city)
+              setFoundWeather(true)  
+            })
+            .catch((response)=>{   
+              setFoundCity(true) 
+              setData(true)          
+            })
   }
 
   function getData(){
+    setRightCity(false)
+
     function capitalize(s){
       return s[0].toUpperCase() + s.slice(1);
     }
-
     if(forecast.daily !== undefined){
+
       const status = {
         city:forecast.name,
         degree:parseInt(forecast.current.temp),
@@ -94,33 +103,48 @@ export default function App() {
         max:parseInt(forecast.daily[0].temp.max),
         min:parseInt(forecast.daily[0].temp.min)
       } 
-      let days = [];
+
+      const days = [];
       forecast.daily.forEach((value)=>{
         const day = {
-          day:value.dt * 1000,
+          day: capitalize(moment(value.dt * 1000).format('dddd', 'pt-br').slice(0,3)),
           description:capitalize(value.weather[0].description),
           max:value.temp.max,
           min:value.temp.min
         }
         days.push(day)
       })
+
+      const hours=[];
+      for(let i=0; i<=24;i++){
+          const hour={
+          hour: moment(forecast.hourly[i].dt * 1000).format('LT', 'pt-br'),
+          temperature: parseInt(forecast.hourly[i].temp)
+        }
+        hours.push(hour)
+      }
+      
+      setHours(hours)
       setDays(days)
       setCurrentStatus(status)
-      setData(true)
+      setData(true)   
     }
   }
 
+
   function changeCity(){
-    setData(false)
     city === 'Sao Paulo' ? setCity('Nova York') : setCity('Sao Paulo')
     setFoundCity(false)
-    setFoundWeather(false)
+    setData(false)
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView >
         <SafeAreaView style={styles.container}>
+        <View>
+
+        </View> 
         {!data ? 
           (<View style={styles.spinner_container}>
             <Container height={70} padding_top={20} width={70}
@@ -130,6 +154,9 @@ export default function App() {
           <>
             <CurrentStatus status={currentStatus}></CurrentStatus>
             <Button onPress={changeCity} title="Press me"></Button>
+            <Container height={150} padding_top={10} width={widthBigContainer}
+              component={<InfoHours info={hours} change={getCity}></InfoHours>}
+            />
             <Container height={500} padding_top={10} width={widthBigContainer}
                 component={<NextSixDays info={days} change={getCity}></NextSixDays>}
             />
@@ -162,14 +189,12 @@ export default function App() {
           </>
         }
         
-        {/* <Text style={styles.texto}>{JSON.stringify(forecast)}</Text> */}
+       
         {/* {foundCity ? <Text style={styles.texto}>{JSON.stringify(city.current)}</Text>: null} */}
         {/* <Container height={100} padding_top={10} width={widthBigContainer}
           component={<InfoText info={next_sixHours}></InfoText>}
         />
-        <Container height={150} padding_top={10} width={widthBigContainer}
-          component={<InfoHours info={next_sixHours} change={getCity}></InfoHours>}
-        /> */}
+         */}
         
         
         
