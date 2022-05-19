@@ -3,7 +3,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Pressable, Button, ActivityIndicator  } from 'react-native';
 
 
-export default function AdditionalInfo({text, icon, title, width}){
+export default function AdditionalInfo({text, icon, title, width, text_color}){
     const styles = StyleSheet.create({
         additional_info_container:{
             alignItems:'center',
@@ -17,15 +17,15 @@ export default function AdditionalInfo({text, icon, title, width}){
         },
         title:{
             fontSize:16,
-            color:'white'
+            color:text_color
         },
         text:{
             fontSize:30,
-            color:'white'
+            color:text_color
         },
         icon:{
             marginRight:5,
-            color:'white'
+            color: text_color
         }
     })
     return(

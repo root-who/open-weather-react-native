@@ -4,32 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Container from '../Container';
 
 
-export default function InfoHours({info}) {
+export default function InfoHours({info, text_color}) {
 
-    return(
-        <View>
-          {/* CONTAINER PRINCIPAL DE ALINHAMENTO PARA TODAS AS 6 TEMPERATURAS, HORARIOS E ICONES*/}
-          <View style={styles.title_container}>
-            <Icon color='white' style={styles.title_icon} name="clock"></Icon>
-            <Text style={styles.title}>Previsão Horária</Text>  
-          </View>
-          
-          <ScrollView horizontal={true} style={styles.forecast_hours_container}>
-            {/* CONTAINER DE ALINHAMENTO PARA CADA TEMPERATURAS, HORARIOS E ICONES*/}
-            {info.map((value, index)=>{
-                return(
-                  <View key={index} style={styles.hour_info_container}>
-                    {index === 0 ? <Text style={styles.hour_temperature}>{'Agora'}</Text>: <Text style={styles.hour_temperature}>{value.hour}</Text>}
-                    <Icon name={'sun'} size={20} color="#fff"></Icon>
-                    <Text style={styles.hour_temperature}>{value.temperature+ 'º'}</Text>
-                  </View>
-            )})}
-          </ScrollView>
-        </View>
-
-    )
-}
-const width = Dimensions.get('screen').width;
+  const width = Dimensions.get('screen').width;
 const widthOtherDays= width/1.11;
 const styles = StyleSheet.create({
   title_container:{
@@ -40,7 +17,7 @@ const styles = StyleSheet.create({
     justifyContent:'flex-start'
   },
   title:{
-    color:'white',
+    color:text_color,
   },
   title_icon:{
     marginRight:10
@@ -65,8 +42,32 @@ const styles = StyleSheet.create({
   hour_temperature:{
     fontSize:14,
     fontWeight:'500',
-    color:'#FFF'
+    color:text_color
   }
 });
+
+
+  return(
+      <View>
+        {/* CONTAINER PRINCIPAL DE ALINHAMENTO PARA TODAS AS 6 TEMPERATURAS, HORARIOS E ICONES*/}
+        <View style={styles.title_container}>
+          <Icon color='white' style={styles.title_icon} name="clock"></Icon>
+          <Text style={styles.title}>Previsão Horária</Text>  
+        </View>
+        
+        <ScrollView horizontal={true} style={styles.forecast_hours_container}>
+          {/* CONTAINER DE ALINHAMENTO PARA CADA TEMPERATURAS, HORARIOS E ICONES*/}
+          {info.map((value, index)=>{
+              return(
+                <View key={index} style={styles.hour_info_container}>
+                  {index === 0 ? <Text style={styles.hour_temperature}>{'Agora'}</Text>: <Text style={styles.hour_temperature}>{value.hour}</Text>}
+                  <Icon name={'sun'} size={20} color="#fff"></Icon>
+                  <Text style={styles.hour_temperature}>{value.temperature+ 'º'}</Text>
+                </View>
+          )})}
+        </ScrollView>
+      </View>
+  )
+}
 
 
