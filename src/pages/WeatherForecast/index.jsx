@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Pressable, Button, ActivityIndicator, Alert, TextInput  } from 'react-native';
+import {Text, View, SafeAreaView, Dimensions, ScrollView, Pressable, ActivityIndicator, Alert, TextInput } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { style } from './style';
+import {style} from './style';
 import CurrentStatus from '../../components/CurrentStatus'
 import InfoHours from '../../components/InfoHours';
 import Container from '../../components/Container';
@@ -99,7 +99,9 @@ export default function WeatherForecast() {
           day: capitalize(moment(value.dt * 1000).format('dddd', 'pt-br').slice(0,3)),
           description:capitalize(value.weather[0].description),
           max:value.temp.max,
-          min:value.temp.min
+          min:value.temp.min,
+          icon: value.weather[0].icon,
+          iconId: value.weather[0].id,
         }
         days.push(day)
       })
@@ -108,7 +110,9 @@ export default function WeatherForecast() {
       for(let i=0; i<=24;i++){
           const hour={
           hour: moment(forecast.hourly[i].dt * 1000).format('LT', 'pt-br'),
-          temperature: parseInt(forecast.hourly[i].temp)
+          temperature: parseInt(forecast.hourly[i].temp),
+          icon: forecast.hourly[i].weather[0].icon,
+          iconId: forecast.hourly[i].weather[0].id,
         }
         hours.push(hour)
       }
@@ -153,12 +157,12 @@ export default function WeatherForecast() {
           <View>
             <TextInput onChangeText={newCity => setCity(newCity)} style={styles.input_city} placeholder="Digite o numero do telefone"/>
           </View>
-            <CurrentStatus text_color={backgroundColor.text_color} status={currentStatus}/>
+            <CurrentStatus width={width} text_color={backgroundColor.text_color} status={currentStatus}/>
             <Container color={backgroundColor.container_color} height={150} padding_top={10} width={widthBigContainer}
-              component={<InfoHours text_color={backgroundColor.text_color} info={hours} change={getCity}/>}
+              component={<InfoHours width={width} text_color={backgroundColor.text_color} info={hours} change={getCity}/>}
             />
-            <Container color={backgroundColor.container_color} height={500} padding_top={10} width={widthBigContainer}
-                component={<NextSixDays text_color={backgroundColor.text_color} info={days} change={getCity}/>}
+            <Container color={backgroundColor.container_color} height={510} padding_top={10} width={widthBigContainer}
+                component={<NextSixDays width={width} text_color={backgroundColor.text_color} info={days} change={getCity}/>}
             />
             <View style={styles.container_smalls_info}>
               <Container color={backgroundColor.container_color} height={widthSmallContainer} padding_top={10} width={widthSmallContainer}

@@ -1,33 +1,10 @@
 
 import Feather from 'react-native-vector-icons/Feather';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Pressable, Button, ActivityIndicator  } from 'react-native';
-
+import { StyleSheet, Text, View} from 'react-native';
+import { style } from './style';
 
 export default function AdditionalInfo({text, icon, title, width, text_color}){
-    const styles = StyleSheet.create({
-        additional_info_container:{
-            alignItems:'center',
-            opacity:0.4,
-        },
-        additional_title_container:{
-            width:width,
-            flexDirection: 'row',
-            justifyContent:'flex-start',
-            marginBottom:40
-        },
-        title:{
-            fontSize:16,
-            color:text_color
-        },
-        text:{
-            fontSize:30,
-            color:text_color
-        },
-        icon:{
-            marginRight:5,
-            color: text_color
-        }
-    })
+    const styles = style(text_color, width)
     return(
         <View style={styles.additional_info_container}>
             <View style={styles.additional_title_container}>

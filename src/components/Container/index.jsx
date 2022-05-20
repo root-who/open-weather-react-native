@@ -1,23 +1,10 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, Button } from 'react-native';
+import { View} from 'react-native';
 import React, { useEffect, useState } from 'react';
-
+import { style } from './style';
 export default function Container({height, width, component, padding_top, color}){
 
 
-    const styles = StyleSheet.create({
-        forecast_container:{
-            backgroundColor:color,
-            width:width,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-            paddingTop:padding_top,
-            height:height,
-            alignItems:'center', 
-            marginBottom:20 
-    }
-    })
+    const styles = style(color, width, padding_top, height)
 
     return(
         // {/* CONTAINER PRINCIPAL PARA TEMPERATURA POR HORARIO + FRASE DA PREVISÃO */}
