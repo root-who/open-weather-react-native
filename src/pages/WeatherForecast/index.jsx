@@ -21,7 +21,7 @@ const widthSmallContainer = widthBigContainer/2.15;
 export default function WeatherForecast() {
 
   const [dataC, setDataC] = useState(new Date())
-  const backgroundHr = dataC.getHours() >= 6 && dataC.getHours() < 18
+  const backgroundHr = dataC.getHours() >= 6 && dataC.getHours() < 13
   const backgroundColor = {
     backgroud:  backgroundHr ?  "rgb(211, 238, 252)" : "rgb(20, 21, 51)",
     container_color: backgroundHr  ? "rgb(112, 201, 245)" : "rgb(42, 44, 78)",
